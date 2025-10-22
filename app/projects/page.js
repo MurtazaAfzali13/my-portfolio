@@ -18,14 +18,14 @@ export default function ProjectsPage() {
       liveUrl: "#",
       githubUrl: "#"
     },
-    {
-      title: "Weather Dashboard",
-      desc: "A responsive weather application with location-based forecasts, interactive maps, weather alerts, and detailed analytics. Includes 7-day forecasts and historical data visualization.",
-      tech: ["React", "Chart.js", "OpenWeather API", "Geolocation API"],
-      image: "🌤️",
-      liveUrl: "#",
-      githubUrl: "#"
-    },
+   {
+  title: "AI Insights Dashboard",
+  desc: "An interactive analytics dashboard that visualizes trends in artificial intelligence research, cloud computing, and neural networks. Includes dynamic charts, live data fetching, and customizable widgets for real-time insights.",
+  tech: ["Next.js", "TypeScript", "Recharts", "Tailwind CSS", "API Integration"],
+  image: "🤖",
+  liveUrl: "https://next-dashboard1-gules.vercel.app/",
+  githubUrl: "https://github.com/MurtazaAfzali13/next-dashboard1"
+},
     {
       title: "Football Player Stats Tracker",
       desc: "An interactive web application that displays detailed statistics, achievements, and career insights of famous football players like Cristiano Ronaldo, Lionel Messi, and others. Users can explore player profiles, compare stats, and visualize performance trends over the years.",
