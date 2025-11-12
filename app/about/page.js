@@ -25,19 +25,64 @@ export default function AboutPage() {
       canvas.height = window.innerHeight;
     };
 
-    // ایجاد ستاره‌ها
+    // ایجاد ستاره‌ها با حرکت چند جهتی
     const createStars = () => {
       stars.length = 0;
-      const starCount = Math.min(300, Math.floor(window.innerWidth * window.innerHeight / 3000));
+      const starCount = Math.min(400, Math.floor(window.innerWidth * window.innerHeight / 2500));
 
       for (let i = 0; i < starCount; i++) {
+        // موقعیت اولیه تصادفی
+        const x = Math.random() * canvas.width;
+        const y = Math.random() * canvas.height;
+        
+        // انواع مختلف حرکت
+        const movementType = Math.floor(Math.random() * 4); // 0, 1, 2, 3
+        let speedX, speedY, orbitRadius, orbitSpeed, orbitCenterX, orbitCenterY;
+        
+        // 25% ستاره‌ها حرکت مداری حول مهتاب داشته باشند
+        if (movementType === 0 && Math.random() < 0.25) {
+          // حرکت مداری حول مهتاب
+          orbitCenterX = canvas.width / 2;
+          orbitCenterY = canvas.height / 2;
+          orbitRadius = Math.random() * Math.min(canvas.width, canvas.height) * 0.3 + 150;
+          orbitSpeed = (Math.random() - 0.5) * 0.03;
+          speedX = 0;
+          speedY = 0;
+        } else {
+          // حرکت خطی تصادفی با سرعت بیشتر
+          speedX = (Math.random() - 0.5) * 0.6;
+          speedY = (Math.random() - 0.5) * 0.4;
+          orbitRadius = 0;
+          orbitSpeed = 0;
+          orbitCenterX = 0;
+          orbitCenterY = 0;
+        }
+        
         stars.push({
-          x: Math.random() * canvas.width,
-          y: Math.random() * canvas.height,
-          radius: Math.random() * 2 + 0.3,
-          speed: Math.random() * 0.5 + 0.1,
+          x,
+          y,
+          radius: Math.random() * 1.8 + 0.3,
+          speedX,
+          speedY,
           opacity: Math.random() * 0.8 + 0.2,
-          pulseSpeed: Math.random() * 0.03 + 0.01
+          pulseSpeed: Math.random() * 0.02 + 0.01,
+          originalX: x,
+          originalY: y,
+          driftDistance: Math.random() * 25 + 8,
+          driftSpeed: Math.random() * 0.015 + 0.005,
+          driftAngle: Math.random() * Math.PI * 2,
+          movementType,
+          orbitRadius,
+          orbitSpeed,
+          orbitCenterX,
+          orbitCenterY,
+          orbitAngle: Math.random() * Math.PI * 2,
+          waveAmplitude: Math.random() * 12 + 3,
+          waveSpeed: Math.random() * 0.02 + 0.005,
+          wavePhase: Math.random() * Math.PI * 2,
+          spiralRadius: Math.random() * 50 + 20,
+          spiralSpeed: Math.random() * 0.01 + 0.005,
+          spiralAngle: Math.random() * Math.PI * 2
         });
       }
     };
@@ -46,16 +91,16 @@ export default function AboutPage() {
     const createPlanets = () => {
       planets.length = 0;
 
-      // سیاره‌های مختلف با ویژگی‌های متفاوت
+     // سیاره‌های مختلف با ویژگی‌های متفاوت
       const planetTypes = [
-        { radius: 8, color: '#ff6b6b', speed: 0.3, distance: 120, rings: false },  // قرمز
-        { radius: 12, color: '#4ecdc4', speed: 0.15, distance: 180, rings: false }, // فیروزه‌ای
-        { radius: 6, color: '#ffe66d', speed: 0.25, distance: 250, rings: false },  // زرد
-        { radius: 10, color: '#ff9ff3', speed: 0.18, distance: 320, rings: true },  // صورتی
-        { radius: 14, color: '#54a0ff', speed: 0.12, distance: 400, rings: false }, // آبی
-        { radius: 13, color: '#5f27cd', speed: 0.22, distance: 480, rings: false },  // بنفش
-        { radius: 11, color: '#00d2d3', speed: 0.16, distance: 550, rings: true },  // سبز آبی
-        { radius: 7, color: '#ff9f43', speed: 0.28, distance: 620, rings: false },  // نارنجی
+        { radius: 8, color: '#ff6b6b', speed: 0.1, distance: 120, rings: false },  // قرمز
+        { radius: 12, color: '#4ecdc4', speed: 0.5, distance: 180, rings: false }, // فیروزه‌ای
+        { radius: 6, color: '#ffe66d', speed: 0.5, distance: 250, rings: false },  // زرد
+        { radius: 10, color: '#ff9ff3', speed: 0.8, distance: 320, rings: true },  // صورتی
+        { radius: 14, color: '#54a0ff', speed: 0.2, distance: 400, rings: false }, // آبی
+        { radius: 13, color: '#5f27cd', speed: 0.3, distance: 480, rings: false },  // بنفش
+        { radius: 11, color: '#00d2d3', speed: 0.6, distance: 550, rings: true },  // سبز آبی
+        { radius: 7, color: '#ff9f43', speed: 0.8, distance: 620, rings: false },  // نارنجی
       ];
 
       planetTypes.forEach((type, index) => {
@@ -288,23 +333,80 @@ export default function AboutPage() {
       ).toString(16).slice(1)}`;
     };
 
-    // رسم ستاره‌ها
+    // رسم ستاره‌ها با حرکت چند جهتی
     const drawStars = () => {
       const time = Date.now() / 1000;
-
+      
       stars.forEach(star => {
+        let newX = star.x;
+        let newY = star.y;
+        
+        // انواع مختلف حرکت روی چند محور
+        switch (star.movementType) {
+          case 0: // حرکت مداری حول مهتاب
+            star.orbitAngle += star.orbitSpeed;
+            newX = star.orbitCenterX + Math.cos(star.orbitAngle) * star.orbitRadius;
+            newY = star.orbitCenterY + Math.sin(star.orbitAngle) * star.orbitRadius;
+            
+            // اضافه کردن حرکت موجی به مدار
+            const waveOffset = Math.sin(time * star.waveSpeed + star.wavePhase) * star.waveAmplitude;
+            newX += Math.cos(star.orbitAngle + Math.PI / 2) * waveOffset;
+            newY += Math.sin(star.orbitAngle + Math.PI / 2) * waveOffset;
+            break;
+            
+          case 1: // حرکت مارپیچی
+            star.spiralAngle += star.spiralSpeed;
+            newX = star.originalX + Math.cos(star.spiralAngle) * star.spiralRadius;
+            newY = star.originalY + Math.sin(star.spiralAngle) * star.spiralRadius;
+            
+            // تغییر تدریجی شعاع مارپیچ
+            star.spiralRadius += Math.sin(time * 0.001) * 0.1;
+            break;
+            
+          case 2: // حرکت لرزشی تصادفی
+            star.driftAngle += star.driftSpeed;
+            const randomMoveX = Math.cos(star.driftAngle) * star.driftDistance;
+            const randomMoveY = Math.sin(star.driftAngle) * star.driftDistance;
+            
+            newX = star.originalX + randomMoveX + Math.sin(time * star.waveSpeed) * star.waveAmplitude;
+            newY = star.originalY + randomMoveY + Math.cos(time * star.waveSpeed * 0.7) * star.waveAmplitude;
+            break;
+            
+          case 3: // حرکت موجی پیچیده
+            const waveX = Math.sin(time * star.waveSpeed + star.wavePhase) * star.waveAmplitude;
+            const waveY = Math.cos(time * star.waveSpeed * 1.3 + star.wavePhase) * star.waveAmplitude * 0.7;
+            newX = star.originalX + waveX;
+            newY = star.originalY + waveY;
+            break;
+        }
+        
+        // حرکت خطی پایه برای همه ستاره‌ها
+        newX += star.speedX;
+        newY += star.speedY;
+        
+        // به روز رسانی موقعیت
+        star.x = newX;
+        star.y = newY;
+        
+        // اگر ستاره از صفحه خارج شد، به موقعیت اولیه برگرد
+        if (star.x < -100 || star.x > canvas.width + 100 || 
+            star.y < -100 || star.y > canvas.height + 100) {
+          star.x = star.originalX;
+          star.y = star.originalY;
+        }
+        
         // چشمک زدن ستاره‌ها
         const pulse = Math.sin(time * star.pulseSpeed) * 0.4 + 0.6;
         const currentOpacity = star.opacity * pulse;
-
+        
         ctx.beginPath();
         ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
-
+        
         // ایجاد درخشش برای ستاره‌های بزرگتر
         if (star.radius > 1.2) {
           const glow = ctx.createRadialGradient(
             star.x, star.y, 0,
-            star.x, star.y, star.radius * 4
+            star.x, star.y, star.radius * 3
           );
           glow.addColorStop(0, `rgba(255, 255, 255, ${currentOpacity})`);
           glow.addColorStop(1, 'rgba(255, 255, 255, 0)');
@@ -312,7 +414,7 @@ export default function AboutPage() {
         } else {
           ctx.fillStyle = `rgba(255, 255, 255, ${currentOpacity})`;
         }
-
+        
         ctx.fill();
       });
     };
@@ -407,7 +509,7 @@ export default function AboutPage() {
           <div className="mb-8 flex flex-col items-center">
             {/* 👇 Text Section */}
             <h1 className="text-6xl md:text-7xl font-bold mb-6 text-white text-center drop-shadow-2xl">
-              About <span className="text-yellow-300 typewriter glow-text">Me</span>
+              About <span className="text-yellow-300 glow-text">Me</span>
             </h1>
 
             <div className="text-2xl md:text-3xl text-white/95 mb-4 slide-in-left text-center">
