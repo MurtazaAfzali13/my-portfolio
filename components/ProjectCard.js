@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useState } from "react";
 
 export default function ProjectCard({ title, desc, tech, liveUrl, githubUrl, image }) {
@@ -21,7 +22,8 @@ export default function ProjectCard({ title, desc, tech, liveUrl, githubUrl, ima
         ) : (
           <>
             {typeof image === "string" && image.match(/\.(jpg|jpeg|png|gif|webp)$/i) ? (
-              <img
+              <Image
+              fill
                 src={image}
                 alt={title}
                 className="w-full h-full object-cover rounded-lg transform group-hover:scale-105 transition-transform duration-500"
