@@ -110,7 +110,7 @@ export default function ContactInfo() {
         <h3 className="text-2xl font-bold text-white mb-4">Quick Response</h3>
         <p className="text-white/80 leading-relaxed">
           I typically respond to all inquiries within 24 hours. For urgent projects,
-          feel free to mention it in your message and I'll prioritize your request.
+          feel free to mention it in your message and I will prioritize your request.
         </p>
       </div>
     </div>
