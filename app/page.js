@@ -1,12 +1,17 @@
 // app/page.jsx
 "use client";
 
-
-import SpaceBackground from "@/components/SpaceBackground";
+import dynamic from "next/dynamic";
 import Image from "next/image";
 import Link from "next/link";
 import Technologies from "@/components/Technologies";
 import DownloadCV from "@/components/DownloadCV";
+
+const SpaceBackground = dynamic(
+  () => import("@/components/SpaceBackground"),
+  { ssr: false }
+);
+
 
 export default function HomePage() {
   return (
@@ -36,12 +41,11 @@ export default function HomePage() {
             {/* Text Section */}
             <h1 className="text-6xl md:text-7xl font-bold mb-6 text-white text-center drop-shadow-2xl">
               Hi, I am{" "}
-              <span className="text-yellow-300 typewriter glow-text">
-                <div>
-                  Murtaza Afzali
-                </div>
+              <span className="text-yellow-300 glow-text">
+                Murtaza Afzali
               </span>
             </h1>
+
 
             <div className="text-2xl md:text-3xl text-white/95 mb-4 slide-in-left text-center">
               <span className="pulse-slow font-semibold drop-shadow-lg">
@@ -72,10 +76,10 @@ export default function HomePage() {
           </div>
         </section>
 
-      <div className="mb-10">
-         <Technologies />
-      </div>
-        
+        <div className="mb-10">
+          <Technologies />
+        </div>
+
         {/* Quick Stats */}
         <section className="w-full max-w-4xl mx-auto mb-16 fade-in px-4">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -115,11 +119,11 @@ export default function HomePage() {
           >
             Start a Project
           </a>
-         
+
         </section>
-       <div className="m-4 cursor-pointer">
+        <div className="m-4 cursor-pointer">
           <DownloadCV />
-       </div>
+        </div>
       </div>
 
       <style jsx>{`
