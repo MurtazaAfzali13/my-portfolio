@@ -1,7 +1,7 @@
 // app/page.jsx
 "use client";
 
-import TypewriterText from "@/components/TypeWriterText";
+
 import SpaceBackground from "@/components/SpaceBackground";
 import Image from "next/image";
 import Link from "next/link";
@@ -37,7 +37,9 @@ export default function HomePage() {
             <h1 className="text-6xl md:text-7xl font-bold mb-6 text-white text-center drop-shadow-2xl">
               Hi, I am{" "}
               <span className="text-yellow-300 typewriter glow-text">
-                <TypewriterText text="Murtaza Afzali" />
+                <div>
+                  Murtaza Afzali
+                </div>
               </span>
             </h1>
 
