@@ -1,8 +1,13 @@
 // app/components/ProjectsList.jsx
 "use client";
-
 import { useState, useEffect } from "react";
+
+
 import ProjectCard from "@/components/ProjectCard";
+import HeroSkeleton from "@/components/skeletons/HeroSkeleton";
+import ProjectCardSkeleton from "@/components/skeletons/ProjectCardSkeleton";
+import FeaturedProjectSkeleton from "@/components/skeletons/FeaturedProjectSkeleton";
+
 
 export default function ProjectsList() {
   const [projects, setProjects] = useState([]);
@@ -14,7 +19,7 @@ export default function ProjectsList() {
         const res = await fetch("/api/projects");
         const data = await res.json();
         setProjects(data);
-        
+
         // تنظیم پروژه ویژه (اولین پروژه یا یک پروژه خاص)
         if (data.length > 0) {
           setFeaturedProject(data[0]);
@@ -42,8 +47,18 @@ export default function ProjectsList() {
 
   if (projects.length === 0) {
     return (
-      <div className="text-center py-12">
-        <div className="text-white text-xl">Loading projects...</div>
+      <div className="relative z-10 w-full">
+        <HeroSkeleton />
+
+        <section className="max-w-7xl mx-auto px-4 mb-16">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {Array.from({ length: 6 }).map((_, i) => (
+              <ProjectCardSkeleton key={i} />
+            ))}
+          </div>
+        </section>
+
+        <FeaturedProjectSkeleton />
       </div>
     );
   }

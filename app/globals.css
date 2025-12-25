@@ -7,6 +7,28 @@
 /* ============================= */
 /* Theme variables */
 /* ============================= */
+
+@keyframes facebook-shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  40% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.animate-facebook-shimmer::before {
+  animation: facebook-shimmer 2.5s infinite;
+}
+
+
+
+
+
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
