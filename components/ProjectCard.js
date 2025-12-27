@@ -1,5 +1,5 @@
 "use client";
-
+// last update
 import Image from "next/image";
 import { useState } from "react";
 
@@ -62,7 +62,7 @@ export default function ProjectCard({
               onClick={() => setShowText(prev => !prev)}
               className="ml-2 text-yellow-300 font-semibold hover:underline"
             >
-              {showText ? "کمتر" : "بیشتر"}
+              {showText ? "less" : "more"}
             </button>
           )}
         </div>
