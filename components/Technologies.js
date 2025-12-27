@@ -18,8 +18,6 @@ const technologies = [
   { name: "Figma", icon: "🎯", color: "#F24E1E", level: 70 },
   { name: "HTML5", icon: "🌐", color: "#E34F26", level: 98 },
   { name: "CSS3", icon: "🎭", color: "#1572B6", level: 90 },
-  { name: "Node.js", icon: "🟢", color: "#339933", level: 80 },
-  { name: "MongoDB", icon: "🍃", color: "#47A248", level: 75 },
   { name: "Redux", icon: "🟣", color: "#764ABC", level: 70 },
   { name: "Vite", icon: "⚡", color: "#646CFF", level: 85 },
   { name: "VS Code", icon: "💻", color: "#007ACC", level: 100 },

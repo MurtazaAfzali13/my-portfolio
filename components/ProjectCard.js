@@ -3,8 +3,18 @@
 import Image from "next/image";
 import { useState } from "react";
 
-export default function ProjectCard({ title, desc, tech, liveUrl, githubUrl, image }) {
+export default function ProjectCard({ 
+  title, 
+  desc = "",  // مقدار پیش‌فرض اضافه شده
+  tech = [],  // مقدار پیش‌فرض برای tech هم اضافه شد
+  liveUrl, 
+  githubUrl, 
+  image 
+}) {
   const [showText, setShowText] = useState(false);
+
+  // اطمینان از اینکه desc همیشه یک string است
+  const description = desc || "";
 
   return (
     <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 hover-lift group overflow-hidden">
@@ -23,9 +33,10 @@ export default function ProjectCard({ title, desc, tech, liveUrl, githubUrl, ima
           <>
             {typeof image === "string" && image.match(/\.(jpg|jpeg|png|gif|webp)$/i) ? (
               <Image
-              fill
                 src={image}
                 alt={title}
+                width={400}
+                height={192}
                 className="w-full h-full object-cover rounded-lg transform group-hover:scale-105 transition-transform duration-500"
               />
             ) : (
@@ -37,26 +48,28 @@ export default function ProjectCard({ title, desc, tech, liveUrl, githubUrl, ima
 
       {/* 🔹 عنوان پروژه */}
       <h3 className="text-2xl font-bold text-white mb-3 group-hover:text-yellow-300 transition-colors">
-        {title}
+        {title || "بدون عنوان"}
       </h3>
 
       {/* 🔹 توضیحات با دکمه بیشتر/کمتر */}
-      <div className="text-white/80 leading-relaxed mb-4">
-        <span>
-          {showText || desc.length <= 200 ? desc : `${desc.slice(0, 150)}...`}
-        </span>
-        {desc.length > 200 && (
-          <button
-            onClick={() => setShowText(prev => !prev)}
-            className="ml-2 text-yellow-300 font-semibold hover:underline"
-          >
-            {showText ? "less" : "more"}
-          </button>
-        )}
-      </div>
+      {description && (
+        <div className="text-white/80 leading-relaxed mb-4">
+          <span>
+            {showText || description.length <= 200 ? description : `${description.slice(0, 150)}...`}
+          </span>
+          {description.length > 200 && (
+            <button
+              onClick={() => setShowText(prev => !prev)}
+              className="ml-2 text-yellow-300 font-semibold hover:underline"
+            >
+              {showText ? "کمتر" : "بیشتر"}
+            </button>
+          )}
+        </div>
+      )}
 
       {/* 🔹 تکنولوژی‌ها */}
-      {tech && (
+      {tech && tech.length > 0 && (
         <div className="mb-4">
           <div className="flex flex-wrap gap-2">
             {tech.map((technology, index) => (
